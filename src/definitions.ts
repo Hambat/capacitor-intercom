@@ -29,6 +29,8 @@ export interface IntercomPlugin {
    * Only for Android
    */
   receivePush(notification: PushNotificationSchema): Promise<void>;
+  
+  displayCarousell(options: DisplayCarousellOptions): Promise<void>;
 }
 
 export interface UserUpdateOptions {
@@ -139,4 +141,8 @@ export interface PushNotificationSchema {
    * @since 1.0.0
    */
   groupSummary?: boolean;
+}
+
+export interface DisplayCarousellOptions {
+  value: string;
 }

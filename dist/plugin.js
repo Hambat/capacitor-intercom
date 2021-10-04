@@ -60,6 +60,9 @@ var capacitorPlugin = (function (exports, core) {
         async receivePush(_notification) {
             throw this.unimplemented('Not implemented on web.');
         }
+        async displayCarousell(_notification) {
+            throw this.unimplemented('Not implemented on web.');
+        }
     }
 
     var web = /*#__PURE__*/Object.freeze({

@@ -10,6 +10,7 @@ import type {
   SetBottomPaddingOptions,
   SetUserHashOptions,
   UserUpdateOptions,
+  DisplayCarousellOptions,
 } from './definitions';
 
 export class IntercomWeb extends WebPlugin implements IntercomPlugin {
@@ -86,6 +87,10 @@ export class IntercomWeb extends WebPlugin implements IntercomPlugin {
   }
 
   async receivePush(_notification: PushNotificationSchema): Promise<void> {
+    throw this.unimplemented('Not implemented on web.');
+  }
+
+  async displayCarousell(_options: DisplayCarousellOptions): Promise<void> {
     throw this.unimplemented('Not implemented on web.');
   }
 }

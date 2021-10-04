@@ -19,6 +19,7 @@ import io.intercom.android.sdk.IntercomPushManager;
 import io.intercom.android.sdk.UserAttributes;
 import io.intercom.android.sdk.identity.Registration;
 import io.intercom.android.sdk.push.IntercomPushClient;
+import io.intercom.android.sdk.carousel.CarouselView;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -290,6 +291,21 @@ public class IntercomPlugin extends Plugin {
                 call.reject("Failed to send push token to Intercom " + token, "FAILED", e);
             }
         }
+    }
+
+    @PluginMethod
+    public void displayCarousell(PluginCall call) {
+String carousell = call.getString("id");
+if (String.isEmpty(carousell)) {
+        return call.reject("Carousell id can't be empty.");
+}
+
+try { 
+        Intercom.client().displayCarousel(carousell);
+        call.resolve();
+} catch (Exception e) {
+        call.reject("Carousel launch failed", "FAILED", e);
+}
     }
 
     private void setUpIntercom() {

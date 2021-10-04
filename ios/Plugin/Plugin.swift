@@ -179,4 +179,16 @@ public class IntercomPlugin: CAPPlugin {
   @objc func isIntercomPush(_ call: CAPPluginCall) {
     call.reject("Not implemented on iOS");
   }
+
+  @objc func displayCarousell(_ call: CAPPluginCall) {
+    let carousell = call.getString("id")
+    
+    if (carousell != nil) {
+      Intercom.presentCarousel(carousell!)
+        call.resolve()
+      print("carousell id sent to intercom")
+    } else {
+        call.reject("Carousell id not found.", "NOT_FOUND")
+    }
+  }
 }

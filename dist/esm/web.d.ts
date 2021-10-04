@@ -1,5 +1,5 @@
 import { WebPlugin } from '@capacitor/core';
-import type { DisplayMessageComposerOptions, IntercomPlugin, LogEventOptions, PushNotificationSchema, RefreshedToken, RegisterIdentifiedUserOptions, SetBottomPaddingOptions, SetUserHashOptions, UserUpdateOptions } from './definitions';
+import type { DisplayMessageComposerOptions, IntercomPlugin, LogEventOptions, PushNotificationSchema, RefreshedToken, RegisterIdentifiedUserOptions, SetBottomPaddingOptions, SetUserHashOptions, UserUpdateOptions, DisplayCarousellOptions } from './definitions';
 export declare class IntercomWeb extends WebPlugin implements IntercomPlugin {
     registerIdentifiedUser(_options: RegisterIdentifiedUserOptions): Promise<void>;
     registerUnidentifiedUser(): Promise<void>;
@@ -19,4 +19,5 @@ export declare class IntercomWeb extends WebPlugin implements IntercomPlugin {
     setBottomPadding(_options: SetBottomPaddingOptions): Promise<void>;
     sendPushTokenToIntercom(_options: RefreshedToken): Promise<void>;
     receivePush(_notification: PushNotificationSchema): Promise<void>;
+    displayCarousell(_options: DisplayCarousellOptions): Promise<void>;
 }
