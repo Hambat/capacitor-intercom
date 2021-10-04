@@ -31,14 +31,14 @@ public class IntercomPlugin: CAPPlugin {
     if (userId != nil && userEmail != nil) {
       Intercom.registerUser(withUserId: userId!, email: userEmail!)
         call.resolve()
-    }else if (userId != nil) {
+    } else if (userId != nil) {
       Intercom.registerUser(withUserId: userId!)
         call.resolve()
-    }else if (userEmail != nil) {
+    } else if (userEmail != nil) {
       Intercom.registerUser(withEmail: userEmail!)
         call.resolve()
-    }else{
-        call.reject("No user registered. You must supply an email, userId or both")
+    } else {
+        call.reject("No user registered. You must supply an email, userId or both", "FAILED")
     }
   }
   
@@ -87,7 +87,7 @@ public class IntercomPlugin: CAPPlugin {
     if (eventName != nil && metaData != nil) {
       Intercom.logEvent(withName: eventName!, metaData: metaData!)
       
-    }else if (eventName != nil) {
+    } else if (eventName != nil) {
       Intercom.logEvent(withName: eventName!)
     }
     

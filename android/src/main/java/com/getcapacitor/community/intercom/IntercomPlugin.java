@@ -70,7 +70,7 @@ public class IntercomPlugin extends Plugin {
             Intercom.client().registerIdentifiedUser(registration);
             call.resolve();
         } catch (Exception e) {
-            call.reject(e.getMessage());
+            call.reject("Registering identified user failed", "FAILED", e);
         }
     }
 
@@ -80,7 +80,7 @@ public class IntercomPlugin extends Plugin {
             Intercom.client().registerUnidentifiedUser();
             call.resolve();
         } catch (Exception e) {
-            call.reject(e.getMessage());
+            call.reject("Registering unidentified user failed", "FAILED", e);
         }
     }
 
@@ -113,7 +113,7 @@ public class IntercomPlugin extends Plugin {
             Intercom.client().updateUser(builder.build());
             call.resolve();
         } catch (Exception e) {
-            call.reject(e.getMessage());
+            call.reject("Updating user failed", "FAILED", e);
         }
     }
 
@@ -123,7 +123,7 @@ public class IntercomPlugin extends Plugin {
             Intercom.client().logout();
             call.resolve();
         } catch (Exception e) {
-            call.reject(e.getMessage());
+            call.reject("Logout failed", "FAILED", e);
         }
     }
 
@@ -141,7 +141,7 @@ public class IntercomPlugin extends Plugin {
 
             call.resolve();
         } catch (Exception e) {
-            call.reject(e.getMessage());
+            call.reject("Logging event failed", "FAILED", e);
         }
     }
 
@@ -151,7 +151,7 @@ public class IntercomPlugin extends Plugin {
             Intercom.client().displayMessenger();
             call.resolve();
         } catch (Exception e) {
-            call.reject(e.getMessage());
+            call.reject("Displaying messenger failed", "FAILED", e);
         }
     }
 
@@ -161,7 +161,7 @@ public class IntercomPlugin extends Plugin {
             Intercom.client().displayMessageComposer();
             call.resolve();
         } catch (Exception e) {
-            call.reject(e.getMessage());
+            call.reject("Displaying message composer failed", "FAILED", e);
         }
     }
 
@@ -171,13 +171,13 @@ public class IntercomPlugin extends Plugin {
             Intercom.client().displayHelpCenter();
             call.resolve();
         } catch (Exception e) {
-            call.reject(e.getMessage());
+            call.reject("Displaying help center failed", "FAILED", e);
         }
     }
 
     @PluginMethod
     public void hideMessenger(PluginCall call) {
-        call.reject("Not implemented on android.");
+        call.unimplemented("Not implemented on android.");
     }
 
     @PluginMethod
@@ -186,7 +186,7 @@ public class IntercomPlugin extends Plugin {
             Intercom.client().setLauncherVisibility(Intercom.VISIBLE);
             call.resolve();
         } catch (Exception e) {
-            call.reject(e.getMessage());
+            call.reject("Displaying launcher failed", "FAILED", e);
         }
     }
 
@@ -196,7 +196,7 @@ public class IntercomPlugin extends Plugin {
             Intercom.client().setLauncherVisibility(Intercom.GONE);
             call.resolve();
         } catch (Exception e) {
-            call.reject(e.getMessage());
+            call.reject("Hiding launcher failed", "FAILED", e);
         }
     }
 
@@ -206,7 +206,7 @@ public class IntercomPlugin extends Plugin {
             Intercom.client().hideIntercom();
             call.resolve();
         } catch (Exception e) {
-            call.reject(e.getMessage());
+            call.reject("Hiding Intercom failed", "FAILED", e);
         }
     }
 
@@ -216,7 +216,7 @@ public class IntercomPlugin extends Plugin {
             Intercom.client().setInAppMessageVisibility(Intercom.VISIBLE);
             call.resolve();
         } catch (Exception e) {
-            call.reject(e.getMessage());
+            call.reject("Displaying in app messages failed", "FAILED", e);
         }
     }
 
@@ -226,30 +226,38 @@ public class IntercomPlugin extends Plugin {
             Intercom.client().setLauncherVisibility(Intercom.GONE);
             call.resolve();
         } catch (Exception e) {
-            call.reject(e.getMessage());
+            call.reject("Hiding in app messages failed", "FAILED", e);
         }
     }
 
     @PluginMethod
     public void setUserHash(PluginCall call) {
-        try {
-            String hmac = call.getString("hmac");
-            Intercom.client().setUserHash(hmac);
-            call.resolve();
-        } catch (Exception e) {
-            call.reject(e.getMessage());
+        String hmac = call.getString("hmac");
+        if (hmac.isEmpty()) {
+            call.reject("User hash not found");
+        } else {
+            try {
+                Intercom.client().setUserHash(hmac);
+                call.resolve();
+            } catch (Exception e) {
+                call.reject("Failed to set user hash " + hmac, "FAILED", e);
+            }
         }
     }
 
     @PluginMethod
     public void setBottomPadding(PluginCall call) {
-        try {
-            String stringValue = call.getString("value");
-            int value = Integer.parseInt(stringValue);
-            Intercom.client().setBottomPadding(value);
-            call.resolve();
-        } catch (Exception e) {
-            call.reject(e.getMessage());
+        String stringValue = call.getString("value");
+        if (stringValue.isEmpty()) {
+            call.reject("Bottom padding value not found", "NOT_FOUND");
+        } else {
+            try {
+                int value = Integer.parseInt(stringValue);
+                Intercom.client().setBottomPadding(value);
+                call.resolve();
+            } catch (Exception e) {
+                call.reject("Set bottom padding failed with value " + stringValue, "FAILED", e);
+            }
         }
     }
 
@@ -263,17 +271,25 @@ public class IntercomPlugin extends Plugin {
             }
             call.resolve();
         } catch (Exception e) {
-            call.reject(e.getMessage());
+            call.reject("Failed to handle received push", "FAILED", e);
         }
     }
 
     @PluginMethod
     public void sendPushTokenToIntercom(PluginCall call) {
         String token = call.getString("value");
-        intercomPushClient.sendTokenToIntercom(this.bridge.getActivity().getApplication(), token);
-        JSObject ret = new JSObject();
-        ret.put("token", token);
-        call.resolve();
+        if (token.isEmpty()) {
+            call.reject("Token not found", "NOT_FOUND");
+        } else {
+            try {
+                intercomPushClient.sendTokenToIntercom(this.bridge.getActivity().getApplication(), token);
+                JSObject ret = new JSObject();
+                ret.put("token", token);
+                call.resolve();
+            } catch (Exception e) {
+                call.reject("Failed to send push token to Intercom " + token, "FAILED", e);
+            }
+        }
     }
 
     private void setUpIntercom() {
