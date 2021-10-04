@@ -54,7 +54,7 @@ export class IntercomWeb extends WebPlugin {
     async receivePush(_notification) {
         throw this.unimplemented('Not implemented on web.');
     }
-    async displayCarousell(_options) {
+    async displayCarousel(_options) {
         throw this.unimplemented('Not implemented on web.');
     }
 }

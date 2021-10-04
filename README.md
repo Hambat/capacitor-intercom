@@ -69,7 +69,7 @@ npx cap sync
 - handlePush
 - sendPushTokenToIntercom
 - receivePush
-- displayCarousell
+- displayCarousel
 
 ## Usage
 
@@ -113,7 +113,7 @@ Intercom
  * https://www.intercom.com/help/en/articles/4605339-launch-mobile-carousels-from-a-button-in-your-mobile-app
  */
 Intercom
-  .displayCarousell({ id: "123456" } })
+  .displayCarousel({ id: "123456" } })
 
 
 //////////////////////////////////////////////

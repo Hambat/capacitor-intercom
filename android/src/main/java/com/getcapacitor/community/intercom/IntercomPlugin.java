@@ -294,18 +294,20 @@ public class IntercomPlugin extends Plugin {
     }
 
     @PluginMethod
-    public void displayCarousell(PluginCall call) {
-String carousell = call.getString("id");
-if (String.isEmpty(carousell)) {
-        return call.reject("Carousell id can't be empty.");
-}
-
-try { 
-        Intercom.client().displayCarousel(carousell);
-        call.resolve();
-} catch (Exception e) {
-        call.reject("Carousel launch failed", "FAILED", e);
-}
+    public void displayCarousel(PluginCall call) {
+        String carousel = call.getString("id");
+        
+        if (carousel.isEmpty()) {
+            call.reject("Carousel id can't be empty.");
+            return;
+        }
+        
+        try {
+            Intercom.client().displayCarousel(carousel);
+            call.resolve();
+        } catch (Exception e) {
+            call.reject("Carousel launch failed", "FAILED", e);
+        }
     }
 
     private void setUpIntercom() {
