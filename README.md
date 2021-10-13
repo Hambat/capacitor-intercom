@@ -32,14 +32,14 @@ Using npm:
 
 ~~npm install @capacitor-community/intercom~~
 ```bash
-npm install https://github.com/Fiksuruoka-fi/capacitor-intercom --save
+npm install https://github.com/Hambat/capacitor-intercom --save
 ```
 
 Using yarn:
 
 ~~yarn add @capacitor-community/intercom~~
 ```bash
-yarn add https://github.com/Fiksuruoka-fi/capacitor-intercom
+yarn add https://github.com/Hambat/capacitor-intercom
 ```
 
 Sync native files:
